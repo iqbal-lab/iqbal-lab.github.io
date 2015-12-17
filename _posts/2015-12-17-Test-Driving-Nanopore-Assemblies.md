@@ -113,15 +113,15 @@ So this all looks great so far, but we were keen to test these methods on sample
 ##### Dataset 3: clinical E.coli sample
 This was a clinical isolate from a study of Nicole Stoesser's (http://biorxiv.org/content/early/2015/11/06/030668) where we had a high quality PacBio assembly which had been polished with Illumina data. The nanopore reads are mid-submission to the ENA, we'll update this blog when we have an accession id.
 
+Results for the nanopolished assemblies (without poligraph)
 
 |                                    | PBcR | Miniasm |
 |------------------------------------|:-----------:|:---------:|
-| Aligned Bases                      |%|%|
-| Percent Identity for Aligned Bases |%|%|
-| Number of Contigs                  |||
-| Number of SNPs                     |||
-| Number of Indels                   |||
-| Time to run poligraph                  | mins| mins|
+| Aligned Bases                      | 99.98% | 100% |
+| Percent Identity for Aligned Bases | 99.72% | 98.25% |
+| Number of Contigs                  | 12 | 17 |
+| Number of SNPs                     | 797 |  19324 |
+| Number of Indels                   | 13480 | 72019 |
 
 Unlike the K12 Loman dataset, here all the assemblers fail to produce a single-contig assembly. 
 
@@ -137,22 +137,57 @@ These plots can be a little confusing (many thanks to Adam Phillippy for some pa
 
 <img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_PBcR_nano_poli_vs_mini_nano_poli.mdelta.png" height="50%" width="50%">
 
+If we replace nanopolish with poligraph polishing, we get the following:
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 99.96% | 99.11%|
+| Percent Identity for Aligned Bases | 99.9%| 98.70%|
+| Number of Contigs                  | 12 | 17 |
+| Number of SNPs                     | 170 | 21881 |
+| Number of Indels                   | 3370 | 40751 |
+| Time to run poligraph                  | ? mins| ? mins|
+
+Note that although this is an unambiguous improvement for the PBcR assembly, and for the miniasm indels, it actually makes the number of SNPs in the miniasm assembly slightly worse. We need to debug that.
+
+Finally, if we ue both polishers (nanopolish and poligraph), the results are better than with either alone
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 99.98% | 99.97%|
+| Percent Identity for Aligned Bases | 99.98%| 99.86%|
+| Number of Contigs                  | 12 | 17 |
+| Number of SNPs                     | 104 | 1147 |
+| Number of Indels                   | 811 | 3826 |
+| Time to run poligraph                  | ? mins| ? mins|
+
 
 
 ##### Dataset 4: clinical K.pneumoniae sample
 BTW we need to specify in the text what the coverage is of nanopore data for all the samples.
 The second clinical sample was a K. pneumoniae clinical isolate with 4 plasmids. 
 
-Table of results
+Table of results for the raw unpolished assemblies 
 
 |                                    | PBcR | Miniasm |
 |------------------------------------|:-----------:|:---------:|
-| Aligned Bases                      |%|%|
-| Percent Identity for Aligned Bases |%|%|
-| Number of Contigs                  |||
-| Number of SNPs                     |||
-| Number of Indels                   |||
-| Time to run poligraph                  | mins| mins|
+| Aligned Bases                      | 99.93% | 92.78%|
+| Percent Identity for Aligned Bases | 98.38% |87.2%|
+| Number of Contigs                  | 13 | 28 |
+| Number of SNPs                     | 3160 | 249564 |
+| Number of Indels                   | 83092 | 453190 |
+
+
+and the results once you add nanopolish are below (for PBcR only, nanopolish on miniasm too slow)
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 99.98% | |
+| Percent Identity for Aligned Bases | 98.68% ||
+| Number of Contigs                  | 13 | 28 |
+| Number of SNPs                     | 1804 |  |
+| Number of Indels                   | 14316 |  |
+
 
 
 PBcR
@@ -174,8 +209,29 @@ and miniasm
 I guess we need to follow Adam's suggestion to check if PBcR can recover the plasmids. I assume this will work:
 Again - both assemblers produce assemblies that agree with the truth and each other, and recover all the plasmids. 
 
-If we add poligraph polishing, we get:
+If we add poligraph polishing instead of nanopolish, we get:
 Table
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 99.98% | 97.79%|
+| Percent Identity for Aligned Bases | 99.84% | 97.94%|
+| Number of Contigs                  | 13 | 28 |
+| Number of SNPs                     | 313 | 37606 |
+| Number of Indels                   | 6897 | 68662 |
+
+
+and again, combining both polishers gives the best results for PBcR - we haven't had time to run nanopolish on the miniasm assembly.
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 99.98% | |
+| Percent Identity for Aligned Bases | 99.95% | |
+| Number of Contigs                  | 13 | 28 |
+| Number of SNPs                     | 142 |  |
+| Number of Indels                   | 1279 |  |
+
+
 
 
 ### Conclusions
