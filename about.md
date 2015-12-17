@@ -1,27 +1,13 @@
 ---
 layout: page
-title: About me
+title: The Iqbal Lab
 permalink: /about/
 ---
 
-Hi, I am Gayan Virajith, a developer (who works on the web) based on Sri Lanka. 
-Graduated from the University College Dublin (National University of Ireland). 
+Zamin Iqbal runs a group at the Wellcome Trust Centre for Human Genetics, at the University of Oxford. Take a look at his [departmental webpage](http://www.well.ox.ac.uk/iqbal) to get more information on the research we do. Right now, the group has 3 fantastic PhD students (Phelim Bradley, Sorina Maciuca, Rachel Norris). We are recruiting for a [Web App Developer](http://www.recruit.ox.ac.uk/pls/hrisliverecruit/erq_jobspec_version_4.jobspec?p_id=118986) to join us, to work on webapps allowing querying of massive bacterial genomic datasets, looking at world diversity and antibiotic resistance profiles - see our [Mykrobe predictor](http://mykrobe.com).
 
-I am Working for [template-factory.nl][tf] also known as [Mearch ICT][m].
-Prefer to serve with Php and Ruby based stacks and also love to work 
-on [Jekyll][jekyll] and [Processwire CMS/CMF][pw].
+### Contact 
+Zam's email:
 
-### Contact me
+zam AT well.ox.ac.uk
 
-Find me on [Google+][google] / [Github][github] / [Twitter][Twitter] or just say `Hello` at 
-[gayanvirajith@gmail.com](gayanvirajith@gmail.com).
-
-
-[tf]: http://template-factory.nl
-[m]: http://mearch.com
-[pw]: http://processwire.com
-[pwf]: http://processwire.com/talk
-[jekyll]: http://jekyllrb.com
-[github]: https://github.com/gayanvirajith
-[google]: https://plus.google.com/+GayanVirajith
-[twitter]: https://twitter.com/gayanvirajith
