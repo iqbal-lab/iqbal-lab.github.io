@@ -142,7 +142,7 @@ If we add poligraph:
 So this all looks great so far, but we were keen to test these methods on samples we had studied in detail. We therefore tried the PBcR pipeline and miniasm on 2 clinical samples described below. 
 
 ##### Dataset 3: clinical E.coli sample
-This was a clinical isolate from a study of Nicole Stoesser's (http://biorxiv.org/content/early/2015/11/06/030668) where we had a high quality PacBio assembly which had been polished with Illumina data. The nanopore reads are mid-submission to the ENA, we'll update this blog when we have an accession id.
+This was a clinical isolate from a study of Nicole Stoesser's (http://biorxiv.org/content/early/2015/11/06/030668) where we had a high quality PacBio assembly which had been polished with Illumina data. The nanopore reads are mid-submission to the ENA, we'll update this blog when we have an accession id. 
 
 Results for the nanopolished assemblies (without poligraph)
 
