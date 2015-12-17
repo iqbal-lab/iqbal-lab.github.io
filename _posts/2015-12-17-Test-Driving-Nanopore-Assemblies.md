@@ -255,7 +255,9 @@ PBcR also recovered the 3 long plasmids (this is not such a good zoom figure, so
 
 
 ### Conclusions
-We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. Both miniasm and PBcR did a decent job of reconstructing plasmids in the K. pneumoniae dataset, which we thought might be challenging as we knew there was a transposon there in 2 copies, one on each of two of the plasmids. 
+We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. PBcR comes out as the winner as far as we can see, but the blistering speed of miniasm, plus the fact that it is only a few weeks old, are extraordinarily impressive.
+
+For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. Both miniasm and PBcR did a decent job of reconstructing plasmids in the K. pneumoniae dataset, which we thought might be challenging as we knew there was a transposon there in 2 copies, one on each of two of the plasmids. 
 
 However, one thing we do notice is that unlike the K12 long-term cultured sample, none of the assemblers succeeded in assembling the two clinical samples into a single contig.
 
