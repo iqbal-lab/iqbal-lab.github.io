@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Test driving assemblies of Oxford Nanopore data, and Illumina-polishing
+title: Test-driving assemblies of Oxford Nanopore data, and Illumina-polishing
 ---
 
 
@@ -33,7 +33,8 @@ Poligraph is a simple wrapper around Cortex, available [here on Github](https://
 ```perl poligraph.pl --draft_assembly PBcR_assembly.fa --reads_fq illumina.fastq --base_dir dir_to_work_from --global --cortex_dir path/to/cortex --vcftools_dir path/to/vcftools --stampy_bin path/to/stampy.py ```
 
 
-The correction process builds a ‘reference’ de Bruijn graph structure of the draft assembly, and a second graph of the high quality reads using cortex. The read graph is cleaned to remove noise. Cortex then creates a vcf of ‘bubble calls’ between the ‘reference’ and the reads, and these calls are used to update the assembly. Polishing a bacterial sample takes 5-10 minutes on a single core.
+The correction process builds a ‘reference’ de Bruijn graph structure of the draft assembly, and a second graph of the high quality reads using cortex. The read graph is cleaned to remove noise. Cortex then creates a vcf of ‘bubble calls’ between the ‘reference’ and the reads, and these calls are used to update the assembly. Polishing a bacterial sample takes 5-10 minutes on a single core. Poligraph is not expected to be a state-of-the-art super-polisher - we just intended it as a fast baseline method, robust to the indel errors we might see in a nanopore assembly.
+
 
 ### How does it perform?
 
@@ -254,7 +255,7 @@ PBcR also recovered the 3 long plasmids (this is not such a good zoom figure, so
 
 
 ### Conclusions
-We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. 
+We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. Both miniasm and PBcR did a decent job of reconstructing plasmids in the K. pneumoniae dataset, which we thought might be challenging as we knew there was a transposon there in 2 copies, one on each of two of the plasmids.
 
 Some things we plan to do:
 
