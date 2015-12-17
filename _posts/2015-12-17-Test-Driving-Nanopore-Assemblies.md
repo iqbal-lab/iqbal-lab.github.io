@@ -4,7 +4,7 @@ title: Test-driving assemblies of Oxford Nanopore data, and Illumina-polishing
 ---
 
 
-### What's our interest?
+### What is our interest in nanopore?
 We wear a couple of different hats in my research group. Part of the time we spend developing new data structures and methods for representing genetic variation, which is a subject of a future post. But we are also interested in applications of sequencing to problems in clinical microbiology. Anyone reading this blog is likely to have heard of the Oxford Nanopore MinION sequencer, and to be aware it is a USB-stick-sized single molecule sequencing machine that generates reads in real time. There are many obvious benefits to having a cheap, fast, portable, long read sequencer, especially in a clinical setting where you don't want to wait until you have enough sick people to justify a MiSeq run. But for this analysis, we wanted to know how well whole-genome assembly works with nanopore data, and how close to a finished genome can you get. Of course, once you push the boundaries, it gets hard to define finished, as samples continue to evolve during culture, and there is no Heaven-sent Truth for us to use. However if we can get an assembly that is highly concordant with a high-quality polished/manually studied PacBio assembly, then I'm going to be happy.  
 
 By the way, all of this analysis is the work of Rachel Norris, a PhD student in Zam's group. We both wrote the post, so you may find it switches confusingly from "I" to "we" in places (sorry).
@@ -266,8 +266,14 @@ Some things we plan to do:
 * Take a look at how poligraph compares with pilon
 * Compare with the [Schatz pipeline](http://biorxiv.org/content/early/2015/01/06/013490) which can achieve accuracies up to 99.99%.
 * Go back and italicise the Latin species names
+* Update this blogpost when the submission to the European Nucleotide Archive (ENA) of the nanopore reads for our clinical samples has completed.
 
 This has not been a full and systematic benchmarking of the many tools available. Ivan Sović et al have also done an [in depth comparison] of several hybrid and non-hybrid assemblies of this dataset, although they stop at the draft assembly stage. We should really have compared with a Spades hybrid assembly also, but life is short and Christmas around the corner.
+
+
+## Thanks
+
+Finally, we'd like to thank a number of people: Anna Sheppard and Nicole Stoesser at Oxford for providing clinical samples for sequencing, and high quality PacBio assemblies to compare with, Adam Philippy for many emails discussing and debugging, and Nick Loman, Josh Quick and Jared Simpson for making their data available, and on multiple chemistries.
 
 [in depth comparison]:<http://www.biorxiv.org/content/biorxiv/early/2015/11/13/030437.full.pdf>
 
