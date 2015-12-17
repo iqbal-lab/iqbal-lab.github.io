@@ -113,14 +113,23 @@ So this all looks great so far, but we were keen to test these methods on sample
 ##### Dataset 3: clinical E.coli sample
 This was a clinical isolate from a study of Nicole Stoesser's (http://biorxiv.org/content/early/2015/11/06/030668) where we had a high quality PacBio assembly which had been polished with Illumina data. The nanopore reads are mid-submission to the ENA, we'll update this blog when we have an accession id.
 
-Tables of results and mummer plots
 
-Unlike the K12 Loman dataset, here all the assemblers fail to produce a single-contig assembly. However, all of the assemblies were consistent and agreed structurally with the truth, apart from one putative inversion ?kb long. This could be due to evolution since the origina assembly was performed, we would have to check. 
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      |%|%|
+| Percent Identity for Aligned Bases |%|%|
+| Number of Contigs                  |||
+| Number of SNPs                     |||
+| Number of Indels                   |||
+| Time to run poligraph                  | mins| mins|
+
+Unlike the K12 Loman dataset, here all the assemblers fail to produce a single-contig assembly. 
 
 For PBcR
-<img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_PBcR_nano_poli_vs_mini_nano_poli.mdelta.png" height="50%" width="50%">
+We are missing this figure I think from the repo.
 
-and for miniasm
+
+and for miniasm, we also see an inversion:
 <img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_miniasm_nano_poli.mdelta.png" height="50%" width="50%">
 
 
@@ -136,7 +145,16 @@ The second clinical sample was a K. pneumoniae clinical isolate with 4 plasmids.
 
 Table of results
 
-zahara <img src="" height="50%" width="50%">
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      |%|%|
+| Percent Identity for Aligned Bases |%|%|
+| Number of Contigs                  |||
+| Number of SNPs                     |||
+| Number of Indels                   |||
+| Time to run poligraph                  | mins| mins|
+
+
 PBcR
 <img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_PBcR_nano_poli.mdelta.png" height="50%" width="50%">
 
