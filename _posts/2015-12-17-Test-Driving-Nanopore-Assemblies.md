@@ -28,7 +28,12 @@ All of these pipelines work purely with nanopore data, and we wanted to know how
 [cortex]:<http://cortexassembler.sourceforge.net/>
 
 ### How does poligraph work?
-The correction process builds a ‘reference’ de Bruijn graph structure of the draft assembly, and a second graph of the high quality reads using cortex. The read graph is cleaned to remove noise. Cortex then creates a vcf of ‘bubble calls’ between the ‘reference’ and the reads, and these calls are used to update the assembly.
+Poligraph is a simple wrapper around Cortex, available [here on Github](https://github.com/iqbal-lab/poligraph). A typical command-line might be
+
+```perl poligraph.pl --draft_assembly PBcR_assembly.fa --reads_fq illumina.fastq --base_dir dir_to_work_from --global --cortex_dir path/to/cortex --vcftools_dir path/to/vcftools --stampy_bin path/to/stampy.py ```
+
+
+The correction process builds a ‘reference’ de Bruijn graph structure of the draft assembly, and a second graph of the high quality reads using cortex. The read graph is cleaned to remove noise. Cortex then creates a vcf of ‘bubble calls’ between the ‘reference’ and the reads, and these calls are used to update the assembly. Polishing a bacterial sample takes 5-10 minutes on a single core.
 
 ### How does it perform?
 
@@ -54,21 +59,10 @@ Tables of results for these assemblies:
 | Number of Contigs                  |3|1|1|
 | Number of SNPs                     |1357|4115|(246377)|
 | Number of Indels                   |22622|30838|(365081)|
-| Time                  |2 weeks|?| 2mins|
+| Time                  |2 weeks| 34 hours | 2mins|
 
 The first thing to note is that both the LQS and Phillippy group assembly pipelines performed a correction step before assembly and a polishing step afterwards. For a fair comparison, I should have at least run 2 rounds of nanopolishing on the miniasm assembly as well, but when I tried this on a different sample it took 5 days on 16 cores to run just one round, so we ended up postponing - hence those figures are in brackets. 
 
-
-Looking at the mummerplots, we can see that all three assemblies align nicely to the reference. Here is the LQS assembly:
-<img src="{{site.baseurl}}/assets/img/20151215_poligraph_Ecoli_K12_loman_and_nanopolish.mdelta.png" height="50%" width="50%">
-
-and here the PBcR assembly
-<img src="{{site.baseurl}}/assets/img/20151215_poligraph_Ecoli_K12_PBcR_and_2nd_nanopolish.mdelta.png" height="50%" width="50%">
-and finally the Miniasm assembly:
-<img src="{{site.baseurl}}/assets/img/20151215_poligraph_Ecoli_K12_miniasm.mdelta.png" height="50%" width="50%">
-
-
-Once we allow for the fact that they will each have linearised the circular chromosome in different places, we see that all are consistent with the truth assembly.
 
 Various things we see:
 
@@ -102,13 +96,49 @@ Various observations:
 * LQS/PBcR each go up to >99.95% accuracy.
 * The accuracy we get with poligraph is still not as high as that reported by Mike Schatz (99.99%), although we believe that takes a few hours to a day on a cluster, rather than 6/7 mins on a single core.
 
+Just to finish off, here are the mummerplots for the final assemblies, including both nanopolish and poligraph polishing:
 
-##### Dataset 2: SQK006
-Because of the length of time that the correction step took in the LQS pipeline, we did not test it further on other samples.
-[we’ve only looked at SNP/indel errors]
+Loman-Quick-Simpson:
+<img src="{{site.baseurl}}/assets/img/20151215_poligraph_Ecoli_K12_loman_and_nanopolish.mdelta.png" height="50%" width="50%">
+and here the PBcR 
+<img src="{{site.baseurl}}/assets/img/20151215_poligraph_Ecoli_K12_PBcR_and_2nd_nanopolish.mdelta.png" height="50%" width="50%">
+and finally the Miniasm 
+<img src="{{site.baseurl}}/assets/img/20151215_poligraph_Ecoli_K12_miniasm.mdelta.png" height="50%" width="50%">
+
+Looking at the mummerplots, once we allow for the fact that they will each have linearised the circular chromosome in different places, we see that all are consistent with the truth assembly.
 
 
-So this all looks great so far, but we were keen to test these methods on samples we had studied in detail. We therefore tried the PBcR pipeline and miniasm on 2 clinical samples described below. The correction step in the LQS pipeline was slow enough that we decided not to run it on these.
+
+From here onwards  we did not test the LQS pipeline, as the error correction step took too long.
+
+##### Dataset 2: E. coli K12 MG1655 latest chemistry:SQK-MAP-006
+
+We reran on the latest chemistry, again courtesy of Nick Loman et al. The baseline results for the two methods we now restrict to are:
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 100% | 92.73% |
+| Percent Identity for Aligned Bases | 99.10% | 88.53% |
+| Number of Contigs                  | 1 | 1 |
+| Number of SNPs                     | 876 |  182693 |
+| Number of Indels                   | 40710 | 338240 |
+
+Quite amazing - the unpolished PBcR assembly is now over 99% identity. (Results for the PCR and PCR-free runs were almost identical - actually need to check which these results are).
+
+
+If we add poligraph:
+
+
+|                                    | PBcR | Miniasm |
+|------------------------------------|:-----------:|:---------:|
+| Aligned Bases                      | 100% | 94.18% |
+| Percent Identity for Aligned Bases | 99.88% | 95.62% |
+| Number of Contigs                  | 1 | 1 |
+| Number of SNPs                     | 121 |  70786 |
+| Number of Indels                   | 5200 | 124751 |
+
+
+So this all looks great so far, but we were keen to test these methods on samples we had studied in detail. We therefore tried the PBcR pipeline and miniasm on 2 clinical samples described below. 
 
 ##### Dataset 3: clinical E.coli sample
 This was a clinical isolate from a study of Nicole Stoesser's (http://biorxiv.org/content/early/2015/11/06/030668) where we had a high quality PacBio assembly which had been polished with Illumina data. The nanopore reads are mid-submission to the ENA, we'll update this blog when we have an accession id.
@@ -117,25 +147,13 @@ Results for the nanopolished assemblies (without poligraph)
 
 |                                    | PBcR | Miniasm |
 |------------------------------------|:-----------:|:---------:|
-| Aligned Bases                      | 99.98% | 100% |
+| Aligned Bases                      | 99.98% | 99.97% |
 | Percent Identity for Aligned Bases | 99.72% | 98.25% |
 | Number of Contigs                  | 12 | 17 |
 | Number of SNPs                     | 797 |  19324 |
 | Number of Indels                   | 13480 | 72019 |
 
 Unlike the K12 Loman dataset, here all the assemblers fail to produce a single-contig assembly. 
-
-For PBcR
-We are missing this figure I think from the repo.
-
-
-and for miniasm, we also see an inversion:
-<img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_miniasm_nano_poli.mdelta.png" height="50%" width="50%">
-
-
-These plots can be a little confusing (many thanks to Adam Phillippy for some patient emails helping us through some interpretation), but if we align the two assemblies against each other, we see that they are almost entirely consistent, supporting the possibility that the inversion we see with respect to the reference/truth is real.
-
-<img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_PBcR_nano_poli_vs_mini_nano_poli.mdelta.png" height="50%" width="50%">
 
 If we replace nanopolish with poligraph polishing, we get the following:
 
@@ -146,9 +164,8 @@ If we replace nanopolish with poligraph polishing, we get the following:
 | Number of Contigs                  | 12 | 17 |
 | Number of SNPs                     | 170 | 21881 |
 | Number of Indels                   | 3370 | 40751 |
-| Time to run poligraph                  | ? mins| ? mins|
 
-Note that although this is an unambiguous improvement for the PBcR assembly, and for the miniasm indels, it actually makes the number of SNPs in the miniasm assembly slightly worse. We need to debug that.
+Note that although this is an unambiguous improvement for the PBcR assembly, and for the miniasm indels, it actually makes the number of SNPs in the miniasm assembly slightly higher. We'll have to look into that.
 
 Finally, if we ue both polishers (nanopolish and poligraph), the results are better than with either alone
 
@@ -159,12 +176,19 @@ Finally, if we ue both polishers (nanopolish and poligraph), the results are bet
 | Number of Contigs                  | 12 | 17 |
 | Number of SNPs                     | 104 | 1147 |
 | Number of Indels                   | 811 | 3826 |
-| Time to run poligraph                  | ? mins| ? mins|
 
+
+Looking at a mummerplot of the alignment of the polished miniasm assembly against the reference, we see an inversion
+<img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_miniasm_nano_poli.mdelta.png" height="50%" width="50%">
+
+We align the (polished) miniasm and PBcR assemblies against each other, to see if they agree:
+<img src="{{site.baseurl}}/assets/img/JR_FAA63658_29092015_ecol_P46212_PBcR_nano_poli_vs_mini_nano_poli.mdelta.png" height="50%" width="50%">
+
+These plots can be a little confusing (many thanks to Adam Phillippy for some patient emails helping us through some interpretation), but we see that they are almost entirely consistent, supporting the possibility that the inversion we see with respect to the reference/truth is real.
 
 
 ##### Dataset 4: clinical K.pneumoniae sample
-BTW we need to specify in the text what the coverage is of nanopore data for all the samples.
+
 The second clinical sample was a K. pneumoniae clinical isolate with 4 plasmids. 
 
 Table of results for the raw unpolished assemblies 
@@ -190,27 +214,7 @@ and the results once you add nanopolish are below (for PBcR only, nanopolish on 
 
 
 
-PBcR
-<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_PBcR_nano_poli.mdelta.png" height="50%" width="50%">
-
-and miniasm
-<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_mini_poli.mdelta.png" height="50%" width="50%">
-
-If we zoom into look at the 4 plasmids in this sample, we see
-
-PBCr
-<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_plasmid_PBcR_and_nanopolish_illumina_correction_plasmids.mdelta.png" height="50%" width="50%">
-
-
-and miniasm
-<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_plasmid_miniasm_only_illumina_correction_plasmids.mdelta.png" height="50%" width="50%">
-
-
-I guess we need to follow Adam's suggestion to check if PBcR can recover the plasmids. I assume this will work:
-Again - both assemblers produce assemblies that agree with the truth and each other, and recover all the plasmids. 
-
 If we add poligraph polishing instead of nanopolish, we get:
-Table
 
 |                                    | PBcR | Miniasm |
 |------------------------------------|:-----------:|:---------:|
@@ -232,18 +236,35 @@ and again, combining both polishers gives the best results for PBcR - we haven't
 | Number of Indels                   | 1279 |  |
 
 
+If we look at the alignment of the PBcR against the truth, we see a small inversion but otherwise full agreement
+<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_PBcR_nano_poli.mdelta.png" height="50%" width="50%">
+
+and miniasm (which does not see/support the inversion)
+<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_mini_poli.mdelta.png" height="50%" width="50%">
+
+If we zoom into look at the 4 plasmids in this sample, we see Miniasm has recovered the 3 large plasmids but lost the tiny one (which could easily be due to sample preparation)
+<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_plasmid_miniasm_only_illumina_correction_plasmids.mdelta.png" height="50%" width="50%">
+
+PBcR also recovered the 3 long plasmids (this is not such a good zoom figure, sorry):
+<img src="{{site.baseurl}}/assets/img/JR_FAA63668_14102015_kpne_CAV1596_PBcR_recovered_plasmids.png" height="50%" width="50%">
+
+
+
+
 
 
 ### Conclusions
-We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly worl. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However I expect that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.98% extremely rapidly. 
+We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. 
 
 Some things we plan to do:
 
 * Test whether local assembly (using poligraph in windows across the assembly) results in better polishing
 * Get the numbers for miniasm+nanopolish
 * Take a look at how poligraph compares with pilon
+* Compare with the [Schatz pipeline](http://biorxiv.org/content/early/2015/01/06/013490) which can achieve accuracies up to 99.99%.
 
-This has not been a full and systematic benchmarking of the many tools available. Most notably we would like to compare its performance and speed to the hybrid assembly method by Schatz and his group (http://biorxiv.org/content/early/2015/01/06/013490) which can achieve accuracies up to 99.99%. Ivan Sović et al have also done an [in depth comparison] of several hybrid and non-hybrid assemblies of this dataset, although they stop at the draft assembly stage. 
+This has not been a full and systematic benchmarking of the many tools available. Ivan Sović et al have also done an [in depth comparison] of several hybrid and non-hybrid assemblies of this dataset, although they stop at the draft assembly stage. We should really have compared with a Spades hybrid assembly also, but life is short and Christmas around the corner.
+
 [in depth comparison]:<http://www.biorxiv.org/content/biorxiv/early/2015/11/13/030437.full.pdf>
 
 
