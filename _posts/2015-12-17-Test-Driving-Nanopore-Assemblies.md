@@ -190,7 +190,7 @@ These plots can be a little confusing (many thanks to Adam Phillippy for some pa
 
 ##### Dataset 4: clinical K.pneumoniae sample
 
-The second clinical sample was a K. pneumoniae clinical isolate with 4 plasmids. 
+The second clinical sample was a K. pneumoniae clinical isolate with 4 plasmids. We had 54x of coverage of 2D reads.
 
 Table of results for the raw unpolished assemblies 
 
@@ -255,7 +255,9 @@ PBcR also recovered the 3 long plasmids (this is not such a good zoom figure, so
 
 
 ### Conclusions
-We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. Both miniasm and PBcR did a decent job of reconstructing plasmids in the K. pneumoniae dataset, which we thought might be challenging as we knew there was a transposon there in 2 copies, one on each of two of the plasmids.
+We were struck by the consistency and correctness of the LQS, PBcR and Miniasm assemblies - completely in contrast to the short read assembly world. Polishing using the electrical event-level information in nanopore data clearly works, though it is currently slow enough to mean the whole process is no faster than an Illumina run. However, that could change quite rapidly with performance modifications to the software. For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. Both miniasm and PBcR did a decent job of reconstructing plasmids in the K. pneumoniae dataset, which we thought might be challenging as we knew there was a transposon there in 2 copies, one on each of two of the plasmids. 
+
+However, one thing we do notice is that unlike the K12 long-term cultured sample, none of the assemblers succeeded in assembling the two clinical samples into a single contig.
 
 Some things we plan to do:
 
@@ -263,6 +265,7 @@ Some things we plan to do:
 * Get the numbers for miniasm+nanopolish
 * Take a look at how poligraph compares with pilon
 * Compare with the [Schatz pipeline](http://biorxiv.org/content/early/2015/01/06/013490) which can achieve accuracies up to 99.99%.
+* Go back and italicise the Latin species names
 
 This has not been a full and systematic benchmarking of the many tools available. Ivan Sović et al have also done an [in depth comparison] of several hybrid and non-hybrid assemblies of this dataset, although they stop at the draft assembly stage. We should really have compared with a Spades hybrid assembly also, but life is short and Christmas around the corner.
 
