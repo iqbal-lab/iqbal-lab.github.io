@@ -1,7 +1,7 @@
 # Harmony Jekyll theme general configurations 
 
 # Base URL
-baseurl: /iqbal-lab.github.io
+baseurl: #/iqbal-lab.github.io
 
 # Site live URL
 url: http://iqbal-lab.github.io
