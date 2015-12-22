@@ -144,6 +144,8 @@ So this all looks great so far, but we were keen to test these methods on sample
 ##### Dataset 3: clinical E.coli sample
 This was a clinical isolate from a study of Nicole Stoesser's (http://biorxiv.org/content/early/2015/11/06/030668) where we had a high quality PacBio assembly which had been polished with Illumina data. The nanopore reads are mid-submission to the ENA, we'll update this blog when we have an accession id. 
 
+[Edit: added 22nd December: This dataset contained 551Mb of 2d reads, so ~110x coverage. Mean/median/max read lengths were 5089/4981/24272bp.]
+
 Results for the nanopolished assemblies (without poligraph)
 
 |                                    | PBcR | Miniasm |
@@ -191,6 +193,8 @@ These plots can be a little confusing (many thanks to Adam Phillippy for some pa
 ##### Dataset 4: clinical K.pneumoniae sample
 
 The second clinical sample was a K. pneumoniae clinical isolate with 4 plasmids. We had 54x of coverage of 2D reads.
+
+[Edit: added 22nd December: This dataset contained 108Mb of 2d reads, so ~22x coverage. Mean/median/max read lengths were 3769/3171/40378 bp.]
 
 Table of results for the raw unpolished assemblies 
 
@@ -260,6 +264,7 @@ We were struck by the consistency and correctness of the LQS, PBcR and Miniasm a
 For those who need higher accuracy than can currently be achieved with nanopore data, poligraph polishing with illumina data offers accuracies of up to 99.9% extremely rapidly. Both miniasm and PBcR did a decent job of reconstructing plasmids in the K. pneumoniae dataset, which we thought might be challenging as we knew there was a transposon there in 2 copies, one on each of two of the plasmids. 
 
 However, one thing we do notice is that unlike the K12 long-term cultured sample, none of the assemblers succeeded in assembling the two clinical samples into a single contig.
+[Edit: added 22nd December: for the Klebsiella example this could be due to only having 22x of coverage, but for the E. coli sample we had 110x]
 
 Some things we plan to do:
 
